@@ -21,4 +21,4 @@ class UserController(BaseController):
 			return US.get_user_by_id(user_id)
 
 user_controller = UserController()
-router = user_controller.router
+user_router = user_controller.router
