@@ -1,8 +1,6 @@
 <template>
 	<v-app-bar
 		elevation="2"
-		:color="isDark ? 'surface' : 'primary'"
-		:dark="isDark"
 	>
 		<v-app-bar-title class="font-weight-bold">
 			My App

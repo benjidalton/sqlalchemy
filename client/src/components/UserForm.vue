@@ -109,7 +109,12 @@ const rules = {
 
 async function submitForm() {
 	try {
-		const response = await UserAPI.create(form.value);
+        const requestBody = {
+            name: form.value.name,
+            email: form.value.email,
+            birthdate: form.value.birthdate
+        }
+		const response = await UserAPI.create(requestBody);
 		if (response.status !== 200) throw new Error("Failed to submit form");
 		alert("User created successfully!");
 		resetForm();
