@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import os
 
 # ----- custom imports ------ +
@@ -15,3 +16,11 @@ app = FastAPI(
 )
  
 app.include_router(user_router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[os.getenv("FRONTEND_PORT")],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)

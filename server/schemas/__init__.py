@@ -5,7 +5,6 @@ from models import snake_to_camel
 
 class SchemaBase(BaseModel):
 	model_config = ConfigDict(
-		extra="forbid", # raise error if unknown field
 		alias_generator=snake_to_camel,
 		populate_by_name=True # allows used of snake_case or camelCase
 	)

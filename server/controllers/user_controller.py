@@ -12,9 +12,9 @@ class UserController(BaseController):
 		def create_user(body: CreateUserSchema):
 			return US.create_user(body)
 		
-		# @self.route("/", HTTPMethod.GET.value)
-		# def list_users():
-		#     return US.get_user
+		@self.route("/", HTTPMethod.GET.value)
+		def get_user_list():
+			return US.get_user_list()
 		
 		@self.route("/{user_id}", HTTPMethod.GET.value)
 		def get_user(user_id: int):

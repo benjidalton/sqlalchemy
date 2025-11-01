@@ -15,7 +15,11 @@ class SQLAlchemy:
 		self.session = scoped_session(sessionmaker(bind=engine))
 		self.model = model_class
 
-	def create_entity(self, entity: type[_O], dto_input: BaseModel):
+	def create_entity(
+		self, 
+		entity: type[_O],
+		dto_input: BaseModel
+	):
 		data = dto_input.model_dump(exclude_unset=True)
 		new_entity = entity(**data)
 		db.session.add(new_entity)
