@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import os
 
 # ----- custom imports ------ +
-from routers import user_router
+from routers import megabonk_router
 
 app = FastAPI(
 	title="My FastAPI App",
@@ -15,12 +16,14 @@ app = FastAPI(
 	}
 )
  
-app.include_router(user_router)
+app.include_router(megabonk_router)
 
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[os.getenv("FRONTEND_PORT")],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+	CORSMiddleware,
+	allow_origins=[os.getenv("FRONTEND_PORT")],
+	allow_credentials=True,
+	allow_methods=["*"],
+	allow_headers=["*"],
 )
+
+app.mount("/assets", StaticFiles(directory=os.path.join(os.getcwd(), "assets")), name="assets")

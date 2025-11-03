@@ -6,7 +6,19 @@
 			My App
 		</v-app-bar-title>
 
+		<template v-for="(item, index) in buttons" :key="index">
+			<v-btn
+				color="primary"
+				variant="text"
+				:title=item.label
+				@click="router.push({ name: item.route })"
+			>
+				{{ item.label }}
+			</v-btn>
+		</template>
+
 		<v-spacer />
+
 
 		<!-- Theme toggle button -->
 		<v-select
@@ -25,13 +37,20 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useTheme } from 'vuetify';
+import { useRouter } from 'vue-router';
 
-const theme = useTheme()
+const router = useRouter();
+const theme = useTheme();
 const themes = [
 	{ title: 'Light', value: 'myCustomLightTheme' },
 	{ title: 'Dark', value: 'myCustomDarkTheme' },
 	{ title: 'Forest', value: 'forestTheme' },
 	{ title: 'Sakura', value: 'sakuraTheme' },
+]
+
+const buttons = [
+	{ label: "Log", route: "log" },
+	{ label: "Stats", route: "stats" }
 ]
 
 const selectedTheme = ref(theme.global.name.value);

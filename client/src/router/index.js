@@ -1,13 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import StatsView from '@/views/MegaBonk/StatsView.vue';
+import LogView from '@/views/MegaBonk/LogView.vue';
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
-		{
+        {
 			path: '/',
-			name: 'home',
-			component: HomeView
+			redirect: '/log' 
+		},
+		{
+			path: '/log',
+			name: 'log',
+			component: LogView
+		},
+		{
+			path: '/stats',
+			name: 'stats',
+			component: StatsView
 		}
 	],
 });

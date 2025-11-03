@@ -1,12 +1,12 @@
 <template>
-    <v-app :style="{ backgroundColor: backgroundColor, color: textColor }">
-         <TopNavBar />
+	<v-app :style="{ backgroundColor: backgroundColor, color: textColor }">
+		 <TopNavBar />
 	<!-- <v-app :style="{ backgroundColor: backgroundColor, color: textColor }"> -->
-        <RouterView />
+		<RouterView />
 
-    </v-app>
+	</v-app>
    
-    <!-- </v-app> -->
+	<!-- </v-app> -->
 </template>
 
 <script setup>

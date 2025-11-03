@@ -37,6 +37,15 @@ class SQLAlchemy:
 			raise HTTPException(404, detail=not_found_msg)
 		return value
 	
+	def get_or_create(self, entity: type[_O], name: str):
+		instance = self.session.query(entity).filter_by(name=name).first()
+		if instance:
+			return instance
+		instance = entity(name=name)
+		self.session(instance)
+		self.session()  # so instance.id is available
+		return instance
+	
 class Base(DeclarativeBase):
 	pass
 	

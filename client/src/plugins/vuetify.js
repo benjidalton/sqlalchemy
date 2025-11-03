@@ -2,7 +2,6 @@ import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
 
-// 🌞 Light theme
 const myCustomLightTheme = {
 	dark: false,
 	colors: {
@@ -18,13 +17,12 @@ const myCustomLightTheme = {
 	},
 };
 
-// 🌚 Dark theme
 const myCustomDarkTheme = {
 	dark: true,
 	colors: {
 		background: '#121212',
 		surface: '#1E1E1E',
-		primary: '#90CAF9',
+		primary: '#c4d8e957',
 		secondary: '#03DAC6',
 		error: '#CF6679',
 		info: '#2196F3',
@@ -34,19 +32,17 @@ const myCustomDarkTheme = {
 	},
 };
 
-// 🌿 Forest theme
 const forestTheme = {
 	dark: true,
 	colors: {
 		background: '#1b2621',
 		surface: '#26332d',
-		primary: '#81c784',
-		secondary: '#a5d6a7',
+		primary: '#77aa7aff',
+		secondary: '#6466d4ff',
 		text: '#e8f5e9',
 	},
 };
 
-// 🌸 Sakura theme
 const sakuraTheme = {
 	dark: false,
 	colors: {
@@ -65,12 +61,19 @@ export const vuetify = createVuetify({
 		sets: { mdi },
 	},
 	theme: {
-		defaultTheme: 'myCustomLightTheme',
+		defaultTheme: 'myCustomDarkTheme',
 		themes: {
 			myCustomLightTheme,
 			myCustomDarkTheme,
 			forestTheme,
 			sakuraTheme,
+		},
+	},
+    defaults: {
+		global: {
+			style: {
+				fontFamily: 'Poppins, sans-serif',
+			},
 		},
 	},
 });

@@ -1,5 +1,5 @@
-from controllers.user_controller import user_router
+from controllers.megabonk_controller import megabonk_router
 
 __all__ = [
-    "user_router"
+    "megabonk_router"
 ]
