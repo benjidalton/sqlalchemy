@@ -1,6 +1,6 @@
 <template>
 	<v-card
-		class="fill-height d-flex flex-column align-center justify-start pa-4"
+		class="fill-height d-flex flex-column align-center justify-start pa-4 h-100"
 		elevation="3"
 		:style="{ backgroundColor: theme.current.value.colors.background }"
 	>
@@ -22,7 +22,7 @@
 				class="bar-row d-flex align-center mb-3"
 			>
 				<!-- Name -->
-				<div class="bar-label">{{ item.name }}</div>
+				<div class="bar-label">{{ item.label != '' ? item.label : item.gameRef }}</div>
 
 				<!-- Bar container -->
 				<div class="bar-container flex-grow-1 mx-3">

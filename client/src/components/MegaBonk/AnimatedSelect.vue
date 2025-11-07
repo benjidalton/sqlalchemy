@@ -51,7 +51,7 @@
 										height="60"
 										contain
 									/>
-                                    {{ item.name }}
+                                    {{ item.label }}
 									</v-btn>
 
 									
@@ -92,7 +92,7 @@
 						density="comfortable"
 						variant="outlined"
 						class="quantity-input"
-						:label="item.name"
+						:label="item.label"
 						@update:model-value="emit('update:modelValue', selectedItems)"
 					/>
 				</v-col>
@@ -153,7 +153,7 @@ const toggleItem = (item) => {
 	} else if (selectedItems.value.length < 4) {
 		selectedItems.value.push({
 			id: item.id,
-			name: item.name,
+			label: item.label,
 			quantity: 1
 		});
 	}

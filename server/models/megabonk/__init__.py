@@ -9,7 +9,8 @@ from sqlalchemy import (
 	Text,
 	ForeignKey,
 	Float,
-	DECIMAL
+	DECIMAL,
+	INTEGER
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
@@ -127,6 +128,7 @@ class RunStat(db.model, BaseJsonSerializable):
 
 	run_id: Mapped[int] = mapped_column(ForeignKey("run.id"), primary_key=True)
 	stat_id: Mapped[int] = mapped_column(ForeignKey("stat.id"), primary_key=True)
+	amount: Mapped[float] = mapped_column(INTEGER, primary_key=True)
 
 	run: Mapped["Run"] = relationship("Run", back_populates="stats")
 	stat: Mapped["Stat"] = relationship("Stat", back_populates="runs")

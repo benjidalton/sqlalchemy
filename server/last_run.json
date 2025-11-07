@@ -1,43 +1,44 @@
 {
-    "run_id": "7113b77e-3ba2-4624-9b38-232d4ef20582",
-    "timestamp": "2025-11-07T18:16:58.6740485Z",
-    "character": "Calcium",
+    "run_id": "8b5dad75-c8d5-42d9-8f67-6a92012a4513",
+    "timestamp": "2025-11-07T22:08:39.3788678Z",
+    "character": "TonyMcZoom",
     "map": "UnknownMap",
     "win": false,
-    "total_damage": 247834.06,
+    "total_damage": 248726.9,
     "enemies_killed": 0,
     "level_reached": 0,
     "items": {
-        "turbo_socks": 2,
-        "clover": 2,
-        "borgar": 2,
-        "giant_fork": 1,
-        "campfire": 1,
-        "key": 1,
-        "ghost": 1,
-        "boss_buster": 2,
-        "golden_sneakers": 1,
-        "glove_blood": 1,
-        "oats": 2,
-        "bonker": 1,
+        "medkit": 2,
+        "ice_crystal": 3,
         "electric_plug": 1,
-        "grandmas_secret_tonic": 2,
-        "cursed_doll": 5,
+        "moldy_cheese": 2,
+        "grandmas_secret_tonic": 1,
+        "key": 4,
+        "battery": 1,
+        "gym_sauce": 1,
+        "golden_glove": 1,
+        "campfire": 1,
+        "glove_lightning": 1,
+        "borgar": 1,
         "backpack": 1,
-        "time_bracelet": 1,
-        "ice_crystal": 1
+        "eagle_claw": 1,
+        "anvil": 1,
+        "phantom_shroud": 1,
+        "unstable_transfusion": 1,
+        "soul_harvester": 1,
+        "forbidden_juice": 1
     },
     "weapons": {
-        "bone": 4,
-        "fire_staff": 4,
-        "rockets": 4,
-        "lightning_staff": 5
+        "bluetooth_dagger": 4,
+        "bone": 2,
+        "dexecutioner": 3,
+        "katana": 4
     },
     "tomes": {
-        "quantity": 3,
-        "projectile_speed": 2,
-        "health": 4,
-        "golden": 8
+        "quantity": 5,
+        "precision": 7,
+        "blood": 3,
+        "damage": 4
     },
     "stats": {
         "silver_increase_multiplier": [
@@ -46,24 +47,84 @@
                 "amount": 0.11
             },
             {
+                "type": "Multiplication",
+                "amount": 1.2
+            },
+            {
                 "type": "Addition",
                 "amount": 0.5
+            },
+            {
+                "type": "Addition",
+                "amount": 0.075
             }
         ],
-        "crit_chance": [
+        "health_regen": [
+            {
+                "type": "Flat",
+                "amount": 20
+            },
+            {
+                "type": "Flat",
+                "amount": 20
+            }
+        ],
+        "gold_increase_multiplier": [
+            {
+                "type": "Addition",
+                "amount": 0.075
+            }
+        ],
+        "extra_jumps": [
+            {
+                "type": "Flat",
+                "amount": 1
+            }
+        ],
+        "lifesteal": [
+            {
+                "type": "Flat",
+                "amount": 0.06
+            },
+            {
+                "type": "Flat",
+                "amount": 0.06
+            }
+        ],
+        "armor": [
             {
                 "type": "Flat",
                 "amount": 0.05
             },
             {
                 "type": "Flat",
-                "amount": 0.05
-            }
-        ],
-        "luck": [
+                "amount": 0.07
+            },
+            {
+                "type": "Flat",
+                "amount": 0.06
+            },
             {
                 "type": "Flat",
                 "amount": 0.05
+            }
+        ],
+        "max_health": [
+            {
+                "type": "Flat",
+                "amount": 15
+            }
+        ],
+        "jump_height": [
+            {
+                "type": "Addition",
+                "amount": 0.1
+            }
+        ],
+        "crit_damage": [
+            {
+                "type": "Addition",
+                "amount": 0.1
             }
         ],
         "difficulty": [
@@ -82,134 +143,89 @@
             {
                 "type": "Flat",
                 "amount": 0.05
-            },
+            }
+        ],
+        "damage_multiplier": [
+            {
+                "type": "Addition",
+                "amount": 0.168
+            }
+        ],
+        "shield": [
+            {
+                "type": "Flat",
+                "amount": 5
+            }
+        ],
+        "crit_chance": [
             {
                 "type": "Flat",
                 "amount": 0.05
             }
-        ],
-        "extra_jumps": [
-            {
-                "type": "Flat",
-                "amount": 1
-            },
-            {
-                "type": "Flat",
-                "amount": 1.4
-            }
-        ],
-        "armor": [
-            {
-                "type": "Flat",
-                "amount": 0.06
-            },
-            {
-                "type": "Flat",
-                "amount": 0.07
-            }
-        ],
-        "size_multiplier": [
-            {
-                "type": "Addition",
-                "amount": 0.08
-            }
-        ],
-        "max_health": [
-            {
-                "type": "Flat",
-                "amount": 15
-            }
-        ],
-        "projectiles": [
-            {
-                "type": "Flat",
-                "amount": 1
-            }
-        ],
-        "crit_damage": [
-            {
-                "type": "Addition",
-                "amount": 0.14
-            },
-            {
-                "type": "Addition",
-                "amount": 0.16
-            }
-        ],
-        "lifesteal": [
-            {
-                "type": "Flat",
-                "amount": 0.072
-            }
         ]
     },
     "damage_by_source": {
-        "bone": 21189.389,
-        "fire_staff": 17892.256,
-        "rockets": 24832.05,
-        "lightning_staff": 33534.223,
-        "ghost": 33167.188,
-        "unknown": 1214.5985,
-        "glove_blood": 12107.295,
-        "bloodmark": 1786.5691,
-        "bonker": 59098.703,
-        "grandmas_secret_tonic": 9989.764,
-        "cursed_doll": 25080.127,
-        "electric_plug": 7943.5996
+        "zap": 8146.991,
+        "glove_lightning": 9417.176,
+        "bluetooth_dagger": 99774.375,
+        "grandmas_secret_tonic": 30763.111,
+        "poison": 13446.546,
+        "katana": 13814.105,
+        "dexecutioner": 11390.269,
+        "bone": 16314.559,
+        "electric_plug": 726.2556,
+        "bloodmark": 4898.885,
+        "soul_harvester": 40032.902
     },
     "run_stats": {
-        "pots_broken": 53,
-        "projectiles_fired": 5536,
-        "silver_earned": 27,
-        "kills": 2508,
-        "mummy_kills": 688,
-        "bone_kills": 390,
-        "calcium_kills": 2508,
-        "xp_gained": 3946,
-        "gold_earned": 9080,
-        "standing_still_kills": 407,
-        "crits": 1452,
-        "shrine_charge": 13,
-        "fire_staff_kills": 331,
-        "fire_kills": 331,
-        "rockets_kills": 447,
-        "chests_bought": 15,
-        "items_picked_up": 28,
-        "chests_opened": 24,
-        "gold_spent": 4415,
-        "elite_kills": 113,
-        "tumblebone_kills": 256,
-        "lightning_staff_kills": 631,
-        "lightning_kills": 702,
-        "skeleton_kills": 140,
-        "golden_skeleton_kills": 1,
-        "armored_skeleton_dusty_kills": 136,
-        "scorpion_kills": 474,
-        "shrine_challenge": 4,
+        "projectiles_fired": 7221,
+        "kills": 2364,
+        "goblin_kills": 2350,
+        "bluetooth_dagger_kills": 1370,
+        "lightning_kills": 1464,
+        "tony_mc_zoom_kills": 2364,
+        "silver_earned": 31,
+        "gold_earned": 7089,
+        "pots_broken": 59,
+        "standing_still_kills": 153,
+        "shrine_charge": 17,
+        "xp_gained": 3433,
+        "items_picked_up": 26,
+        "chests_opened": 22,
+        "zap_kills": 52,
+        "chests_bought": 13,
+        "gold_spent": 6804,
+        "goblin_strong_kills": 626,
+        "elite_kills": 101,
+        "poison_kills": 102,
+        "crits": 3515,
+        "grandmas_secret_tonic_kills": 278,
+        "bone_kills": 172,
+        "skeleton_kills": 179,
+        "xp_skeleton_kills": 2,
+        "dexecutioner_kills": 134,
+        "shrine_succ": 3,
+        "boomer_spider_kills": 203,
+        "unknown_kills": 6,
+        "electric_plug_kills": 42,
+        "lifesteal_healing": 162,
         "miniboss_kills": 2,
-        "miniboss_kills_calcium": 2,
-        "miniboss_scorpion_kills": 1,
-        "mummy_ancient_kills": 4,
-        "xp_skeleton_kills": 3,
-        "ghost_kills": 688,
-        "cactus_shooter_kills": 5,
-        "powerups_used": 3,
-        "unknown_kills": 25,
-        "mummy_tank_kills": 139,
-        "glove_blood_kills": 57,
-        "bloodmark_kills": 1,
-        "damage_reduction_armor": 102,
-        "bonker_kills": 71,
-        "shrine_succ": 1,
-        "scorpion_medium_kills": 184,
-        "grandmas_secret_tonic_kills": 133,
-        "cursed_doll_kills": 143,
-        "electric_plug_kills": 71,
-        "lifesteal_healing": 103,
-        "miniboss_golem_sand_kills": 1,
+        "miniboss_pig_kills": 1,
+        "shrine_challenge": 1,
+        "katana_kills": 79,
+        "golden_skeleton_kills": 1,
+        "slime_kills": 261,
+        "armored_skeleton_kills": 156,
+        "damage_reduction_armor": 87,
+        "glove_lightning_kills": 43,
+        "miniboss_golem_kills": 1,
+        "powerups_used": 4,
+        "golem_kills": 69,
         "boss_kills": 1,
-        "pharaoh1_kills": 1,
-        "greater_ghost_kills": 135,
+        "ent1_kills": 1,
+        "bloodmark_kills": 34,
+        "bee_kills": 171,
+        "soul_harvester_kills": 52,
         "runs": 1
     }
 }

@@ -5,8 +5,9 @@ def snake_to_camel(snake_str: str) -> str:
 	return parts[0] + "".join(word.capitalize() for word in parts[1:])
 
 class BaseJsonSerializable:
-	
+	ignore_columns: list[str] = []
 	def to_json(self):
+		
 		return {
 			snake_to_camel(column.name): (
 				getattr(self, column.name).isoformat()
@@ -14,5 +15,6 @@ class BaseJsonSerializable:
 				else getattr(self, column.name)
 			)
 			for column in self.__table__.columns
+			if column.name not in getattr(self, "ignore_columns", [])
 		}
 

@@ -27,8 +27,7 @@ class RunTomeSchema(SchemaBase):
 class RunItemSchema(SchemaBase):
 	item_id: int
 	quantity: Annotated[int, conint(ge=1)] = 1
-
-
+	
 # ===============================
 # Create Run Schema
 # ===============================

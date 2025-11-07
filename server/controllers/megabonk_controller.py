@@ -1,6 +1,6 @@
 from fastapi import Query, Request
 from datetime import datetime
-import re, json
+import re, json, os
 from pathlib import Path
 from typing import Any
 # ----- custom imports ----- +
@@ -31,6 +31,14 @@ def keys_to_snake_case(obj: Any) -> Any:
 class MegaBonkController(BaseController):
 	def __init__(self):
 		super().__init__(prefix="/megabonk", tags=["Megabonk"])
+		
+		@self.route("/fetch/run/{run_id}", HTTPMethod.GET.value)
+		def get_run_by_id(run_id: int):
+			return MegaBonkService.get_run_by_id(run_id=run_id)
+		
+		@self.route("/runs", HTTPMethod.GET.value)
+		def get_paginated_runs(page: int = 1, per_page: int = 10):
+			return MegaBonkService.get_paginated_runs(page, per_page)
 		
 		@self.route("/static", HTTPMethod.GET.value)
 		def get_static_data():
@@ -73,60 +81,19 @@ class MegaBonkController(BaseController):
 			
 			return {"status": "ok"}
 
-		@self.route("/submit", HTTPMethod.POST.value)
-		def submit():
-			data ={
-    "run_id": "2706b0ef-570a-4bfd-8483-353107b3216d",
-    "timestamp": "2025-11-07T18:04:05.2858533Z",
-    "character": "Calcium",
-    "map": "UnknownMap",
-    "win": 'false',
-    "total_damage": 416.9937,
-    "enemies_killed": 0,
-    "level_reached": 0,
-    "items": {},
-    "weapons": {
-        "bone": 1,
-        "shotgun": 1
-    },
-    "tomes": {},
-    "stats": {
-        "silver_increase_multiplier": [
-            {
-                "type": "Addition",
-                "amount": 0.11
-            },
-            {
-                "type": "Addition",
-                "amount": 0.5
-            }
-        ],
-        "jump_height": [
-            {
-                "type": "Addition",
-                "amount": 0.1
-            }
-        ]
-    },
-    "damage_by_source": {
-        "bone": 349.00504,
-        "shotgun": 67.98865
-    },
-    "run_stats": {
-        "projectiles_fired": 39,
-        "kills": 28,
-        "mummy_kills": 28,
-        "bone_kills": 25,
-        "standing_still_kills": 7,
-        "calcium_kills": 28,
-        "gold_earned": 26,
-        "xp_gained": 9,
-        "shrine_charge": 1,
-        "crits": 5,
-        "shotgun_kills": 3,
-        "runs": 1
-    }
-}
+		@self.route("/submit/last", HTTPMethod.POST.value)
+		def submit_last_run():
+			base_dir = os.path.dirname(os.path.abspath(__file__))
+
+    		# Go up one level to project root, then point to last_run.json
+			file_path = os.path.join(base_dir, "..", "last_run.json")
+
+			# Normalize it (removes .. and converts slashes)
+			file_path = os.path.normpath(file_path)
+
+			# Load JSON data
+			with open(file_path, "r", encoding="utf-8") as file:
+				data = json.load(file)
 			MegaBonkService.submit_run(data)
 
 

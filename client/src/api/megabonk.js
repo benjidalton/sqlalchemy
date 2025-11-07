@@ -17,5 +17,11 @@ export const MegaBonkAPI = {
     },
     getWinRates() {
         return api.get(`/${basePath}/winrates`)
+    },
+    getPaginatedRuns(page = 1 , pageSize = 10) {
+        return api.get(`/${basePath}/runs?page=${page}&page_size=${pageSize}`)
+    },
+    getRunDetailsById(runId) {
+         return api.get(`/${basePath}/fetch/run/${runId}`)
     }
 }

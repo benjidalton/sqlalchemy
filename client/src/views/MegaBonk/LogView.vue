@@ -182,7 +182,9 @@ onMounted(async () => {
 			: [];
 	};
 
+    console.log("static data ressponse", response)
 	characters.value = withQuantity(response.data.characters);
+    console.log("chars", characters.value)
 	weapons.value = withQuantity(response.data.weapons);
 	items.value = withQuantity(response.data.items);
 	tomes.value = withQuantity(response.data.tomes);

@@ -41,7 +41,7 @@
 										:color="isSelected(item.id) ? 'secondary' : 'primary'"
 										@click="toggleItem(item)"
 									>
-										{{ item.name }}
+										{{ item.label }}
 									</v-btn>
 								</v-col>
 
@@ -127,7 +127,7 @@ function toggleItem(item) {
 	} else if (selectedItems.value.length < 4) {
 		selectedItems.value.push({
 			id: item.id,
-			name: item.name,
+			label: item.label,
 			quantity: 1
 		});
 	}

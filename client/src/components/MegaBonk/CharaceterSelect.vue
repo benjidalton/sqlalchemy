@@ -18,7 +18,7 @@
 							contain
 							class="mr-2 rounded-xl"
 						/>
-						{{ selectedCharacter.name }}
+						{{ selectedCharacter.label }}
 					</template>
 
 					<!-- Otherwise show the label -->
@@ -83,7 +83,7 @@
 						</v-card>
 
 						<span class="mt-2 text-center text-subtitle-2 font-weight-medium">
-							{{ char.name }}
+							{{ char.label }}
 						</span>
 					</v-col>
 				</v-row>
@@ -93,7 +93,7 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps, defineEmits } from "vue";
+import { ref, computed, defineProps, defineEmits, onMounted } from "vue";
 import { AssetsAPI } from "@/api/assets";
 
 const props = defineProps({
@@ -105,8 +105,8 @@ const props = defineProps({
 		type: Array,
 		default: () => [
 			// Example shape
-			{ id: 1, name: "Fox", image: "/assets/megabonk/characters/fox.png" },
-			{ id: 2, name: "Goose", image: "/assets/megabonk/characters/mini/mini_fox.png" }
+			{ id: 1, label: "Fox", image: "/assets/megabonk/characters/fox.png" },
+			{ id: 2, label: "Goose", image: "/assets/megabonk/characters/mini/mini_fox.png" }
 		]
 	}
 });
@@ -114,7 +114,7 @@ const props = defineProps({
 const dialog = ref(false);
 const emit = defineEmits(["update:show", "update:modelValue"]);
 
-
+onMounted(() => console.log("props.char", props.characters))
 
 const selectedCharacter = computed(() =>
 	props.characters.find((c) => c.id === props.modelValue)

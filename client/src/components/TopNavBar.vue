@@ -50,7 +50,8 @@ const themes = [
 
 const buttons = [
 	{ label: "Log", route: "log" },
-	{ label: "Stats", route: "stats" }
+	{ label: "Stats", route: "stats" },
+    { label: "History", route: "history" }
 ]
 
 const selectedTheme = ref(theme.global.name.value);

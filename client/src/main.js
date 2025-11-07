@@ -12,8 +12,9 @@ import vuetify from './plugins/vuetify'
 
 // Optional: custom theme (or you can skip)
 const app = createApp(App)
+export const pinia = createPinia() 
 
 app.use(router)
 app.use(vuetify)
-app.use(createPinia)
+app.use(pinia)
 app.mount("#app")
