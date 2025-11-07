@@ -8,6 +8,8 @@ from sqlalchemy import (
 	DateTime,
 	Text,
 	ForeignKey,
+	Float,
+	DECIMAL
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
@@ -15,6 +17,10 @@ from datetime import datetime
 from database import db 
 from models import BaseJsonSerializable
 
+class GameRefLabelMixin:
+
+	game_ref: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
+	label: Mapped[str] = mapped_column(String(50), nullable=True)
 
 # =====================================================
 # Run
@@ -24,9 +30,8 @@ class Run(db.model, BaseJsonSerializable):
 
 	id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, autoincrement=True)
 	character_id: Mapped[int] = mapped_column(ForeignKey("character.id"), nullable=False)
-	date_played: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+	date_played: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
 	duration_minutes: Mapped[int | None] = mapped_column(Integer, nullable=True)
-	score: Mapped[int | None] = mapped_column(Integer, nullable=True)
 	won: Mapped[bool] = mapped_column(Boolean, default=False)
 	notes: Mapped[str | None] = mapped_column(Text, nullable=True)
 
@@ -34,18 +39,27 @@ class Run(db.model, BaseJsonSerializable):
 	weapons: Mapped[list["RunWeapon"]] = relationship("RunWeapon", back_populates="run")
 	items: Mapped[list["RunItem"]] = relationship("RunItem", back_populates="run")
 	tomes: Mapped[list["RunTome"]] = relationship("RunTome", back_populates="run")
+	stats: Mapped[list["RunStat"]] = relationship("RunStat", back_populates="run")
+	damage_sources: Mapped[list["RunDamageSource"]] = relationship("RunDamageSource", back_populates="run")
 
+# =====================================================
+# GameRef
+# =====================================================
+class GameRef(db.model, BaseJsonSerializable):
+	__tablename__ = "game_ref"
+
+	id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, autoincrement=True)
+	name: Mapped[str] = mapped_column(String(255), nullable=True)
 
 # =====================================================
 # Character
 # =====================================================
-class Character(db.model, BaseJsonSerializable):
+class Character(db.model, BaseJsonSerializable, GameRefLabelMixin):
 	__tablename__ = "character"
 
 	id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, autoincrement=True)
-	name: Mapped[str] = mapped_column(String(25), nullable=False)
-	img_source: Mapped[str] = mapped_column(String(255), nullable=False)
-	default_weapon_id: Mapped[int] = mapped_column(ForeignKey("weapon.id"), nullable=False)
+	img_source: Mapped[str] = mapped_column(String(255), nullable=True)
+	default_weapon_id: Mapped[int] = mapped_column(ForeignKey("weapon.id"), nullable=True)
 
 	runs: Mapped[list["Run"]] = relationship("Run", back_populates="character")
 
@@ -53,12 +67,11 @@ class Character(db.model, BaseJsonSerializable):
 # =====================================================
 # Weapon
 # =====================================================
-class Weapon(db.model, BaseJsonSerializable):
+class Weapon(db.model, BaseJsonSerializable, GameRefLabelMixin):
 	__tablename__ = "weapon"
 
 	id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, autoincrement=True)
-	name: Mapped[str] = mapped_column(String(50), nullable=False)
-	img_source: Mapped[str] = mapped_column(String(255), nullable=False)
+	img_source: Mapped[str] = mapped_column(String(255), nullable=True)
 
 	runs: Mapped[list["RunWeapon"]] = relationship("RunWeapon", back_populates="weapon")
 
@@ -66,12 +79,11 @@ class Weapon(db.model, BaseJsonSerializable):
 # =====================================================
 # Tome
 # =====================================================
-class Tome(db.model, BaseJsonSerializable):
+class Tome(db.model, BaseJsonSerializable, GameRefLabelMixin):
 	__tablename__ = "tome"
 
 	id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, autoincrement=True)
-	name: Mapped[str] = mapped_column(String(50), nullable=False)
-	img_source: Mapped[str] = mapped_column(String(255), nullable=False)
+	img_source: Mapped[str] = mapped_column(String(255), nullable=True)
 
 	runs: Mapped[list["RunTome"]] = relationship("RunTome", back_populates="tome")
 
@@ -79,15 +91,45 @@ class Tome(db.model, BaseJsonSerializable):
 # =====================================================
 # Item
 # =====================================================
-class Item(db.model, BaseJsonSerializable):
+class Item(db.model, BaseJsonSerializable, GameRefLabelMixin):
 	__tablename__ = "item"
 
 	id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, autoincrement=True)
-	name: Mapped[str] = mapped_column(String(50), nullable=False)
-	img_source: Mapped[str] = mapped_column(String(255), nullable=False)
+	img_source: Mapped[str] = mapped_column(String(255), nullable=True)
 
 	runs: Mapped[list["RunItem"]] = relationship("RunItem", back_populates="item")
 
+# =====================================================
+# Stat
+# =====================================================	
+class Stat(db.model, BaseJsonSerializable, GameRefLabelMixin):
+	__tablename__ = "stat"
+	
+	id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, autoincrement=True)
+
+	runs: Mapped[list["RunStat"]] = relationship("RunStat", back_populates="stat")
+
+# =====================================================
+# Weapon
+# =====================================================
+class DamageSource(db.model, BaseJsonSerializable, GameRefLabelMixin):
+	__tablename__ = "damage_source"
+
+	id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, autoincrement=True)
+
+	runs: Mapped[list["RunDamageSource"]] = relationship("RunDamageSource", back_populates="damage_source")
+
+# =====================================================
+# RunStats (junction)
+# =====================================================
+class RunStat(db.model, BaseJsonSerializable):
+	__tablename__ = "run_stat"
+
+	run_id: Mapped[int] = mapped_column(ForeignKey("run.id"), primary_key=True)
+	stat_id: Mapped[int] = mapped_column(ForeignKey("stat.id"), primary_key=True)
+
+	run: Mapped["Run"] = relationship("Run", back_populates="stats")
+	stat: Mapped["Stat"] = relationship("Stat", back_populates="runs")
 
 # =====================================================
 # RunWeapon (junction)
@@ -101,6 +143,19 @@ class RunWeapon(db.model, BaseJsonSerializable):
 
 	run: Mapped["Run"] = relationship("Run", back_populates="weapons")
 	weapon: Mapped["Weapon"] = relationship("Weapon", back_populates="runs")
+
+# =====================================================
+# RunDamageSource (junction)
+# =====================================================
+class RunDamageSource(db.model, BaseJsonSerializable):
+	__tablename__ = "run_damage_source"
+
+	run_id: Mapped[int] = mapped_column(ForeignKey("run.id"), primary_key=True)
+	damage_source_id: Mapped[int] = mapped_column(ForeignKey("damage_source.id"), primary_key=True)
+	amount: Mapped[float] = mapped_column(DECIMAL(10, 2), nullable=False)
+
+	run: Mapped["Run"] = relationship("Run", back_populates="damage_sources")
+	damage_source: Mapped["DamageSource"] = relationship("DamageSource", back_populates="runs")
 
 
 # =====================================================

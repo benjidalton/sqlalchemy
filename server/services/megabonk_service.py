@@ -1,80 +1,62 @@
 from typing import Dict, Any, List
 from datetime import datetime
 from sqlalchemy import func, case
+from pydantic import BaseModel
 # ------ custom imports ----- +
-from schemas import CreateRunSchema
+from schemas import *
 from database import db
 from services import modifying
 from models.megabonk import *
 
+class IGNameDTO(BaseModel):
+    game_ref: str
+
 class MegaBonkService:
 
-	@modifying
 	@staticmethod
-	def create_run(run_data: CreateRunSchema) -> Dict[str, Any]:
-		# --- 1️⃣ Create the run record ---
-		new_run = Run(
-			character_id=run_data.character_id,
-			date_played=datetime.now(),
-			duration_minutes=run_data.duration_minutes,
-			score=run_data.score,
-			won=run_data.won,
-			notes=run_data.notes,
+	def submit_run(data):
+		char = db.session.query(Character).filter_by(game_ref=data["character"]).first()
+		if not char:
+			char = Character(game_ref=data["character"], label=data["character"])
+			db.session.add(char)
+			db.session.flush()
+
+		# --- 2. Create Run ---
+		run = Run(
+			character_id=char.id,
+			duration_minutes=None,
+			won=False
 		)
+		db.session.add(run)
+		db.session.flush()
 
-		db.session.add(new_run)
-		db.session.flush()  # ensures new_run.id is available
+		# --- 3. Handle junctions dynamically --
+		# --- Items ---
+		for game_ref, qty in data.get("items", {}).items():
+			item = db.get_or_create(Item, game_ref)
+			db.session.add(RunItem(run_id=run.id, item_id=item.id, quantity=qty))
 
-		# --- 2️⃣ Weapons ---
-		if run_data.weapons:
-			for weapon in run_data.weapons:
-				# If weapon_id not provided, fall back to name
-				if getattr(weapon, "weapon_id", None):
-					weapon_obj = db.session.get(Weapon, weapon.weapon_id)
-				else:
-					weapon_obj = db.get_or_create(Weapon, name=weapon.name)
+		# --- Weapons ---
+		for game_ref, qty in data.get("weapons", {}).items():
+			weapon = db.get_or_create(Weapon, game_ref)
+			db.session.add(RunWeapon(run_id=run.id, weapon_id=weapon.id, quantity=qty))
 
-				run_weapon = RunWeapon(
-					run_id=new_run.id,
-					weapon_id=weapon_obj.id,
-					quantity=weapon.quantity,
-				)
-				db.session.add(run_weapon)
+		# --- Tomes ---
+		for game_ref, qty in data.get("tomes", {}).items():
+			tome = db.get_or_create(Tome, game_ref)
+			db.session.add(RunTome(run_id=run.id, tome_id=tome.id, quantity=qty))
 
-		# --- 3️⃣ Tomes ---
-		if run_data.tomes:
-			for tome in run_data.tomes:
-				if getattr(tome, "tome_id", None):
-					tome_obj = db.session.get(Tome, tome.tome_id)
-				else:
-					tome_obj = db.get_or_create(Tome, name=tome.name)
+		# --- Run Stats ---
+		for stat_name, value in data.get("run_stats", {}).items():
+			stat = db.get_or_create(Stat, stat_name)
+			db.session.add(RunStat(run_id=run.id, stat_id=stat.id))
 
-				run_tome = RunTome(
-					run_id=new_run.id,
-					tome_id=tome_obj.id,
-					quantity=tome.quantity
-				)
-				db.session.add(run_tome)
-
-		# --- 4️⃣ Items ---
-		if run_data.items:
-			for item in run_data.items:
-				if getattr(item, "item_id", None):
-					item_obj = db.session.get(Item, item.item_id)
-				else:
-					item_obj = db.get_or_create(Item, name=item.name)
-
-				run_item = RunItem(
-					run_id=new_run.id,
-					item_id=item_obj.id,
-					quantity=item.quantity,
-				)
-				db.session.add(run_item)
+		for damage_source, amount in data.get("damage_by_source", {}).items():
+			damage_source = db.get_or_create(DamageSource, damage_source)
+			db.session.add(RunDamageSource(run_id=run.id, damage_source_id=damage_source.id, amount=amount))
 
 		db.session.commit()
-		db.session.refresh(new_run)
 
-		return {"run": new_run}
 
 	@staticmethod
 	def get_static_data():

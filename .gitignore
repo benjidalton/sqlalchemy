@@ -5,3 +5,7 @@ launch.json
 
 server/assets/
 server/database/scripts/
+
+*.dll
+
+MBStatTracker/obj/

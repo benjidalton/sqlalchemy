@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+	<AssemblyName>MBStatTracker</AssemblyName>
+	<Product>MBStatTracker</Product>
+	<Version>1.0.0</Version>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+	<LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+	<RestoreAdditionalProjectSources>
+	  https://api.nuget.org/v3/index.json;
+	  https://nuget.bepinex.dev/v3/index.json;
+	  https://nuget.samboy.dev/v3/index.json
+	</RestoreAdditionalProjectSources>
+	<RootNamespace>MBStatTracker</RootNamespace>
+	<GameDir>C:\Program Files (x86)\Steam\steamapps\common\MegaBonk</GameDir> <!-- 🧠 Adjust this path if your game folder differs -->
+  </PropertyGroup>
+
+  <!-- NuGet dependencies -->
+  <ItemGroup>
+	<PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
+	<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+  </ItemGroup>
+
+  <!-- Game + BepInEx interop references -->
+  <ItemGroup>
+	<Reference Include="UnityEngine">
+		<HintPath>$(GameDir)\BepInEx\interop\UnityEngine.dll</HintPath>
+		<Private>False</Private>
+	</Reference>
+	<Reference Include="UnityEngine.CoreModule">
+		<HintPath>$(GameDir)\BepInEx\interop\UnityEngine.CoreModule.dll</HintPath>
+		<Private>False</Private>
+	</Reference>
+	<Reference Include="Il2Cppmscorlib">
+		<HintPath>$(GameDir)\BepInEx\interop\Il2Cppmscorlib.dll</HintPath>
+		<Private>False</Private>
+	</Reference>
+	<Reference Include="Assembly-CSharp">
+		<HintPath>$(GameDir)\BepInEx\interop\Assembly-CSharp.dll</HintPath>
+		<Private>False</Private>
+	</Reference>
+  </ItemGroup>
+
+  <!-- Automatically include your source files -->
+  <ItemGroup>
+	<Compile Include="Plugin\**\*.cs" />
+	<Compile Include="Patches\**\*.cs" />
+	<Compile Include="Utils\**\*.cs" />
+	<Compile Include="Properties\**\*.cs" />
+    <Compile Include="Models\**\*.cs" />
+  </ItemGroup>
+
+  <!-- Output directly to the BepInEx plugin folder -->
+  <PropertyGroup>
+	<OutputPath>$(GameDir)\BepInEx\plugins\</OutputPath>
+  </PropertyGroup>
+
+</Project>

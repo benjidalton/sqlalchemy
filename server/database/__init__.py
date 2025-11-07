@@ -5,6 +5,7 @@ import os, typing
 from pydantic import BaseModel
 from fastapi import HTTPException
 
+
 engine = create_engine(os.getenv("DATABASE_URI"), pool_size=100, pool_timeout=45, echo=True, echo_pool=True)
 
 _O = typing.TypeVar("_O", bound=object)
@@ -38,12 +39,19 @@ class SQLAlchemy:
 		return value
 	
 	def get_or_create(self, entity: type[_O], name: str):
-		instance = self.session.query(entity).filter_by(name=name).first()
+		from models.megabonk import GameRef
+		game_ref = self.session.query(GameRef).filter_by(name=name).first()
+		if not game_ref:
+			game_ref_instance = GameRef(name=name)
+			self.session.add(game_ref_instance)
+			self.session.flush() 
+			
+		instance = self.session.query(entity).filter_by(game_ref=name).first()
 		if instance:
 			return instance
-		instance = entity(name=name)
-		self.session(instance)
-		self.session()  # so instance.id is available
+		instance = entity(game_ref=name)
+		self.session.add(instance)
+		self.session.flush()  # so instance.id is available
 		return instance
 	
 class Base(DeclarativeBase):
